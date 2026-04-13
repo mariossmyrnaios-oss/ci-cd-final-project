@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: final-ci-cd-pipelinerun
+spec:
+  pipelineRef:
+    name: final-ci-cd-pipeline
+  params:
+    - name: app-name
+      value: final-app
+    - name: build-image
+      value: image-registry.openshift-image-registry.svc:5000/$(oc project -q)/final-app
+  workspaces:
+    - name: output
+      persistentVolumeClaim:
+        claimName: oc-lab-pvc
